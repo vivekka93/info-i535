@@ -1,5 +1,5 @@
 
-from stream_logs import generate_log
+from log_generator import generate_log
 import logging
 from google.cloud import pubsub_v1
 import random
@@ -34,10 +34,9 @@ def callback(message_future):
 if __name__ == '__main__':
 
     while True:
-        line = generate_log()
-        print(line)
-        message_future = publish(publisher, topic_path, line)
+        log = generate_log()
+        print(log)
+        message_future = publish(publisher, topic_path, log)
         message_future.add_done_callback(callback)
-
         sleep_time = random.choice(range(1, 3, 1))
         time.sleep(sleep_time)
